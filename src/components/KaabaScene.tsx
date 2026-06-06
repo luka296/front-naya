@@ -206,16 +206,39 @@ function GoldParticles() {
     }
     return pos;
   }, []);
+
+  const particleRef = useRef<Float32Array>(positions);
+  const velocityRef = useRef(new Float32Array(positions.length));
+
   useFrame(({ clock }) => {
     if (!ref.current) return;
+
+    // Rotate
     ref.current.rotation.y = clock.elapsedTime * 0.012;
+
+    // Add wave motion to particles
+    const pos = particleRef.current;
+    const velocity = velocityRef.current;
+
+    for (let i = 0; i < pos.length; i += 3) {
+      velocity[i] += (Math.sin(clock.elapsedTime * 0.5 + i) - 0.5) * 0.001;
+      velocity[i + 1] += (Math.cos(clock.elapsedTime * 0.3 + i) - 0.5) * 0.001;
+      velocity[i + 2] += (Math.sin(clock.elapsedTime * 0.4 + i) - 0.5) * 0.001;
+
+      pos[i] += velocity[i];
+      pos[i + 1] += velocity[i + 1];
+      pos[i + 2] += velocity[i + 2];
+    }
+
+    (ref.current.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
   });
+
   return (
     <points ref={ref}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} count={positions.length / 3} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#f0cc7c" size={0.04} sizeAttenuation transparent opacity={0.5} depthWrite={false} />
+      <pointsMaterial color="#f0cc7c" size={0.04} sizeAttenuation transparent opacity={0.6} depthWrite={false} />
     </points>
   );
 }
@@ -296,6 +319,10 @@ export function KaabaScene({ scrollY }: { scrollY: React.MutableRefObject<number
       <pointLight position={[0, -3, 3]} intensity={1.2} color="#c89a3a" distance={16} />
       {/* Extra front light so Kaaba is well lit */}
       <spotLight position={[0, 4, 8]} intensity={2.0} angle={0.5} penumbra={0.8} color="#fff5e0" />
+
+      {/* Enhanced lighting for depth */}
+      <pointLight position={[8, 5, 5]} intensity={0.8} color="#f0cc7c" distance={30} decay={2} />
+      <pointLight position={[-8, 5, -5]} intensity={0.8} color="#d4a64d" distance={30} decay={2} />
 
       <CameraRig scrollY={scrollY} />
       <Stars radius={70} depth={40} count={2200} factor={3} saturation={0} fade speed={0.4} />

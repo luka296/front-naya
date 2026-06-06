@@ -1,7 +1,7 @@
 "use client";
 
 import { useActiveSection } from "@/hooks/useActiveSection";
-import { Info, TrendingUp, Route, ShieldCheck, Sparkles } from "lucide-react";
+import { Boxes, Info, Route, ShieldCheck, BarChart3 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -14,10 +14,10 @@ interface DockItem {
 
 const dockItems: DockItem[] = [
   { label: "المنصة", href: "#about", id: "about", icon: Info },
-  { label: "الفرصة", href: "#problem", id: "problem", icon: TrendingUp },
-  { label: "العمل", href: "#steps", id: "steps", icon: Route },
+  { label: "الخدمات", href: "#services", id: "services", icon: Boxes },
+  { label: "الرحلة", href: "#steps", id: "steps", icon: Route },
   { label: "الأمان", href: "#trust", id: "trust", icon: ShieldCheck },
-  { label: "ابدأ", href: "#cta", id: "cta", icon: Sparkles },
+  { label: "اللوحة", href: "#dashboard", id: "dashboard", icon: BarChart3 },
 ];
 
 export function MobileDock() {

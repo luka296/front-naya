@@ -13,9 +13,11 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { label: "المنصة", href: "#about", id: "about" },
+  { label: "الخدمات", href: "#services", id: "services" },
   { label: "الفرصة", href: "#problem", id: "problem" },
-  { label: "طريقة العمل", href: "#steps", id: "steps" },
+  { label: "الرحلة", href: "#steps", id: "steps" },
   { label: "الأمان", href: "#trust", id: "trust" },
+  { label: "اللوحة", href: "#dashboard", id: "dashboard" },
 ];
 
 export function Header() {
@@ -36,7 +38,7 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-[18px] left-1/2 -translate-x-1/2 z-90 w-[min(1120px,calc(100%-32px))] h-16 px-[14px] flex items-center justify-between border border-line-gold rounded-lg bg-[rgba(11,19,41,0.78)] shadow-[0_18px_70px_rgba(0,0,0,0.5)] backdrop-blur-[18px]">
+    <header className="fixed top-[18px] left-1/2 -translate-x-1/2 z-[90] w-[min(1120px,calc(100%-32px))] h-16 px-[14px] flex items-center justify-between border border-line-gold rounded-lg bg-[rgba(11,19,41,0.78)] shadow-[0_18px_70px_rgba(0,0,0,0.5)] backdrop-blur-[18px]">
       {/* Brand logo */}
       <a href="#hero" className="flex items-center gap-2.5 font-bold text-white cursor-pointer">
         <span className="grid place-items-center w-9 h-9 border border-line-gold rounded-lg bg-[linear-gradient(145deg,rgba(212,166,77,0.22),rgba(255,255,255,0.02))] shadow-[inset_0_0_18px_rgba(212,166,77,0.16)] text-gold-soft">
@@ -46,7 +48,7 @@ export function Header() {
       </a>
 
       {/* Desktop navigation links */}
-      <nav className="hidden md:flex items-center justify-center gap-[26px] text-muted-gold text-[0.95rem] font-medium" aria-label="التنقل الرئيسي">
+      <nav className="hidden md:flex items-center justify-center gap-5 text-muted-gold text-[0.92rem] font-medium" aria-label="التنقل الرئيسي">
         {navLinks.map((link) => {
           const isActive = activeSection === link.id;
           return (

@@ -185,3 +185,13 @@ html {
   scrollbar-width: thin;
   scrollbar-color: #d4a64d #030712;
 }
+
+/* 3D Transform Support */
+.preserve-3d {
+  perspective: 1000px;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
