@@ -1,0 +1,189 @@
+﻿Diagnose log at 2026-06-07T01:13:56Z
+
+AppPath: C:\Program Files\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Program Files\Git\mingw64\bin\
+Version: 2.6.1+786ab03440ddc82e807a97c0e540f5247e44cec6
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 19045)
+Reading environment variables... OK
+ Variables:
+HOMEPATH=\Users\Dell
+DriverData=C:\Windows\System32\Drivers\DriverData
+COMPUTERNAME=DESKTOP-68EHGG6
+GIT_TRACE2_PARENT_SID=0d1d5599-a892-415c-9d42-a6fafd2ae5d0
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+OneDrive=C:\Users\Dell\OneDrive
+PYTHONSTARTUP=c:\Users\Dell\AppData\Roaming\Code\User\workspaceStorage\75efe5a9f4192e7099fa2c0759926ddd\ms-python.python\pythonrc.py
+PYTHON_BASIC_REPL=1
+SESSIONNAME=Console
+TMP=C:\Users\Dell\AppData\Local\Temp
+PROCESSOR_REVISION=3c03
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+USERNAME=Dell
+GIT_ASKPASS=c:\Users\Dell\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\493597c785d4c5cb\askpass.sh
+GIT_EXEC_PATH=C:/Program Files/Git/mingw64/libexec/git-core
+TEMP=C:\Users\Dell\AppData\Local\Temp
+LOCALAPPDATA=C:\Users\Dell\AppData\Local
+MSYSTEM=MINGW64
+TERM=xterm-256color
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+sql po=C:\Program Files\PostgreSQL\18\bin
+VSCODE_PYTHON_AUTOACTIVATE_GUARD=1
+COLORTERM=truecolor
+flutter=C:\Users\Dell\flutter\bin
+JAVA_HOME=C:\Program Files\Java\jdk-17
+USERDOMAIN=DESKTOP-68EHGG6
+ProgramFiles(x86)=C:\Program Files (x86)
+Path=C:/Program Files/Git/mingw64/libexec/git-core;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Dell\bin;C:\Program Files\WindowsApps\Microsoft.PowerShell_7.5.2.0_x64__8wekyb3d8bbwe;C:\Users\Dell\flutter\bin\;D:\flutter\bin;C:\Program Files\Common Files\Oracle\Java\javapath;%JAVA_HOME%\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\dotnet\;C:\Program Files\gettext-iconv\bin;C:\Program Files\Docker\Docker\resources\bin;F:\xampp\php;C:\Program Files\Graphviz\bin;C:\Program Files\;D:\flutter\bin;C:\Program Files\Common Files\Oracle\Java\javapath;%JAVA_HOME%\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\dotnet\;C:\Program Files\gettext-iconv\bin;C:\Program Files\Docker\Docker\resources\bin;F:\xampp\php;C:\Program Files\Graphviz\bin;C:\Program Files\;D:\flutter\bin;C:\Users\Dell\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Dell\AppData\Local\Programs\Python\Python313\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\Dell\AppData\Local\Microsoft\WindowsApps;C:\Users\Dell\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Dell\AppData\Local\GitHubDesktop\bin;F:\apache-groovy-sdk-4.0.26\groovy-4.0.26\bin;C:\Users\Dell\Desktop\gettext-iconv-windows-0.24-v1.17;C:\Program Files\Java\jdk-17\bin;C:\Users\Dell\AppData\Local\Programs\cursor\resources\app\bin;C:\Program Files\Graphviz\bin;C:\Users\Dell\AppData\Roaming\npm;C:\Program Files\PostgreSQL\18\bin
+TERM_PROGRAM=vscode
+PROCESSOR_LEVEL=6
+NUMBER_OF_PROCESSORS=8
+sql=C:\Program Files\PostgreSQL\18\bin
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+APPDATA=C:\Users\Dell\AppData\Roaming
+TERM_PROGRAM_VERSION=1.123.0
+VSCODE_GIT_ASKPASS_MAIN=c:\Users\Dell\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\493597c785d4c5cb\askpass-main.js
+PSModulePath=D:\Documents\PowerShell\Modules;C:\Program Files\PowerShell\Modules;c:\program files\windowsapps\microsoft.powershell_7.5.2.0_x64__8wekyb3d8bbwe\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\PowerShell\Modules\
+PUBLIC=C:\Users\Public
+VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-6dc2192f81-sock
+FPS_BROWSER_USER_PROFILE_STRING=Default
+CommonProgramFiles=C:\Program Files (x86)\Common Files
+VSCODE_INJECTION=1
+CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_16160_FWAOXEESPZKXZBAM
+asl.log=Destination=file
+PLINK_PROTOCOL=ssh
+ProgramData=C:\ProgramData
+ProgramW6432=C:\Program Files
+php_p=F:\php-8.4.4-src\php-8.4.4-src
+ProgramFiles=C:\Program Files (x86)
+VSCODE_GIT_ASKPASS_NODE=C:\Users\Dell\AppData\Local\Programs\Microsoft VS Code\Code.exe
+TMPDIR=C:\Users\Dell\AppData\Local\Temp
+SystemRoot=C:\Windows
+INTEL_DEV_REDIST=C:\Program Files (x86)\Common Files\Intel\Shared Libraries\
+HOME=C:\Users\Dell
+GETTEXTCLDRDIR=C:\Program Files\gettext-iconv\lib\gettext
+LOGONSERVER=\\DESKTOP-68EHGG6
+USERPROFILE=C:\Users\Dell
+CommonProgramW6432=C:\Program Files\Common Files
+USERDOMAIN_ROAMINGPROFILE=DESKTOP-68EHGG6
+PROCESSOR_ARCHITEW6432=AMD64
+HOMEDRIVE=C:
+VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+psql=C:\Program Files\PostgreSQL\18\bin
+MIC_LD_LIBRARY_PATH=C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\mic
+FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+PROCESSOR_ARCHITECTURE=x86
+OS=Windows_NT
+ComSpec=C:\Windows\system32\cmd.exe
+SystemDrive=C:
+windir=C:\Windows
+LANG=en_US.UTF-8
+ALLUSERSPROFILE=C:\ProgramData
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\Dell\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\Dell\AppData\Local\Temp\6f1443d8b78e7c6d6dc6d6f2'... OK
+Reading from temporary file 'C:\Users\Dell\AppData\Local\Temp\6f1443d8b78e7c6d6dc6d6f2'... OK
+Deleting temporary file 'C:\Users\Dell\AppData\Local\Temp\6f1443d8b78e7c6d6dc6d6f2'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\Dell
+UserDataDirectoryPath: C:\Users\Dell\.gcm
+GetCurrentDirectory(): D:\Desktop\naya
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com...Sending HEAD request to https://example.com... OK
+ OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:49857/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.49.0.windows.1'
+Locating current repository...Git repository at 'D:/Desktop/naya/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Users/Dell/.gitconfig	filter.lfs.required=true
+file:C:/Users/Dell/.gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Users/Dell/.gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Users/Dell/.gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Users/Dell/.gitconfig	user.name=luka296
+file:C:/Users/Dell/.gitconfig	user.email=body33768@gmail.com
+file:C:/Users/Dell/.gitconfig	gui.recentrepo=C:/Users/Dell/Desktop/New folder/studyud/Templates
+file:C:/Users/Dell/.gitconfig	core.autocrlf=true
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	branch.main.vscode-merge-base=origin/main
+file:.git/config	remote.origin.url=https://github.com/luka296/naya-app.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Flow type is: Auto
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\Dell\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\Dell\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: True
+Exception: None
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint... OK
+
