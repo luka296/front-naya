@@ -203,23 +203,7 @@ export function NIYAPhoneMockup() {
                     {/* TAB A: HOME SCREEN */}
                     {activeTab === "home" && (
                       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                        <div className="rounded-xl border border-[#d4a64d2e] bg-[#0b1329]/90 p-4 text-right">
-                          <p className="text-[10px] font-bold text-gold">حملة السقيا الجارية</p>
-                          <h4 className="text-sm font-extrabold text-white mt-1">30 فوج عمرة وتوزيع مياه مجدول</h4>
-                          <div className="flex items-end justify-between mt-3" dir="rtl">
-                            <div>
-                              <p className="text-[9px] text-slate-400">المقاعد الشاغرة</p>
-                              <p className="text-2xl font-light text-white">1,865</p>
-                            </div>
-                            <div className="text-left">
-                              <p className="text-xs font-bold text-emerald-400">1,635</p>
-                              <p className="text-[9px] text-slate-500">منفذة</p>
-                            </div>
-                          </div>
-                          <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-black/40">
-                            <div className="h-full w-[47%] rounded-full bg-gradient-to-r from-gold to-[#14b8a6]" />
-                          </div>
-                        </div>
+
 
                         {/* Recent Status Update */}
                         <div className="rounded-xl border border-white/5 bg-white/[0.03] p-3 text-right">

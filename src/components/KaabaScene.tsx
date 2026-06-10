@@ -165,29 +165,9 @@ function HajjManGLB({ scrollY }: { scrollY: React.MutableRefObject<number> }) {
 ───────────────────────────────────────── */
 function SceneModels({ scrollY }: { scrollY: React.MutableRefObject<number> }) {
   return (
-    <>
-      <ModelErrorBoundary fallback={
-        <Float speed={0.6} rotationIntensity={0.03} floatIntensity={0.2}>
-          <ProceduralKaaba />
-        </Float>
-      }>
-        <Suspense fallback={
-          <Float speed={0.6} rotationIntensity={0.03} floatIntensity={0.2}>
-            <ProceduralKaaba />
-          </Float>
-        }>
-          <Float speed={0.6} rotationIntensity={0.03} floatIntensity={0.2}>
-            <KaabaGLB />
-          </Float>
-        </Suspense>
-      </ModelErrorBoundary>
-
-      <ModelErrorBoundary fallback={null}>
-        <Suspense fallback={null}>
-          <HajjManGLB scrollY={scrollY} />
-        </Suspense>
-      </ModelErrorBoundary>
-    </>
+    <Float speed={0.6} rotationIntensity={0.03} floatIntensity={0.2}>
+      <ProceduralKaaba />
+    </Float>
   );
 }
 
@@ -339,7 +319,4 @@ export function KaabaScene({ scrollY }: { scrollY: React.MutableRefObject<number
   );
 }
 
-if (typeof window !== "undefined") {
-  useGLTF.preload("/models/kaaba_in_mecca.glb");
-  useGLTF.preload("/models/hajj_man_animated.glb");
-}
+

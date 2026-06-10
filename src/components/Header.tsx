@@ -17,7 +17,6 @@ const navLinks: NavLink[] = [
   { label: "الفرصة", href: "#problem", id: "problem" },
   { label: "الرحلة", href: "#steps", id: "steps" },
   { label: "الأمان", href: "#trust", id: "trust" },
-  { label: "اللوحة", href: "#dashboard", id: "dashboard" },
 ];
 
 export function Header() {
@@ -76,8 +75,8 @@ export function Header() {
 
       {/* Header CTA action button */}
       <a
-        href="#cta"
-        onClick={(e) => handleScroll(e, "#cta")}
+        href="#services"
+        onClick={(e) => handleScroll(e, "#services")}
         className="flex items-center gap-2 min-h-[42px] px-3.5 border border-[rgba(212,166,77,0.42)] rounded-lg bg-[rgba(212,166,77,0.12)] font-bold text-white hover:bg-white hover:text-[#030712] hover:border-white hover:shadow-[0_0_15px_rgba(255,255,255,0.6)] transition-all duration-300 select-none"
       >
         <Sparkles className="w-5 h-5 text-gold group-hover:text-[#030712]" />

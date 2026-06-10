@@ -27,13 +27,7 @@ import {
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { ChartCard } from "@/components/ChartCard";
 import { DashboardCard } from "@/components/DashboardCard";
-import {
-  dashboardKpis,
-  dashboardProgress,
-  impactGrowth,
-  monthlyUserGrowth,
-  serviceDistribution,
-} from "@/data/dashboardStats";
+import { useData } from "@/context/DataContext";
 import { cn } from "@/lib/utils";
 
 const compactNumber = (value: number) => {
@@ -49,8 +43,19 @@ const toneClasses = {
 };
 
 export function InvestorDashboard() {
+  const { data } = useData();
+  const {
+    dashboardKpis,
+    dashboardProgress,
+    impactGrowth,
+    monthlyUserGrowth,
+    serviceDistribution,
+    platformActivities,
+    regionalCards,
+  } = data;
+
   return (
-    <section id="dashboard" className="relative px-6 py-28 md:px-12">
+    <section id="dashboard" className="relative px-6 py-12 md:px-12 md:h-screen md:min-h-0 md:py-0 flex flex-col justify-center overflow-hidden">
       <div className="mx-auto max-w-[1240px]">
         {/* Section Title */}
         <motion.div
@@ -179,7 +184,7 @@ export function InvestorDashboard() {
                       <span
                         className={cn(
                           "rounded-full border px-2 py-1 text-[10px] font-extrabold",
-                          toneClasses[kpi.tone]
+                          toneClasses[kpi.tone as keyof typeof toneClasses]
                         )}
                       >
                         {kpi.trend}
@@ -286,6 +291,51 @@ export function InvestorDashboard() {
                             whileInView={{ width: `${metric.percentage}%` }}
                             viewport={{ once: true }}
                             transition={{ duration: 1.35, delay: 0.1 + index * 0.08 }}
+                            className="h-full rounded-full bg-gradient-to-l from-[#ead2ac] to-[#14b8a6]"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </DashboardCard>
+              </div>
+
+              {/* Live Activities and Regional Distribution row */}
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                <DashboardCard title="نشاط المنصة المباشر" eyebrow="تتبع التنفيذ والتحقق" icon={Activity} delay={0.2}>
+                  <div className="space-y-4 max-h-[220px] overflow-y-auto pr-2 scrollbar-none" dir="rtl">
+                    {platformActivities && platformActivities.map((act, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-white/[0.02] border border-white/5 hover:border-gold/20 transition-all">
+                        <span className="mt-2 w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center">
+                            <h5 className="text-xs font-extrabold text-white">{act.title}</h5>
+                            <span className="text-[10px] text-slate-500 font-medium">{act.time}</span>
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">{act.detail}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </DashboardCard>
+
+                <DashboardCard title="التوزيع الجغرافي للمستهدفين" eyebrow="حسب المنطقة ونسبة الطلب" icon={TrendingUp} delay={0.24}>
+                  <div className="space-y-4" dir="rtl">
+                    {regionalCards && regionalCards.map((reg, idx) => (
+                      <div key={idx}>
+                        <div className="flex justify-between items-center text-xs font-bold mb-1.5">
+                          <span className="text-slate-300">{reg.region}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] text-slate-500 font-medium">{reg.detail}</span>
+                            <span className="text-gold">{reg.value}</span>
+                          </div>
+                        </div>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: reg.value }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, delay: idx * 0.08 }}
                             className="h-full rounded-full bg-gradient-to-l from-[#ead2ac] to-[#14b8a6]"
                           />
                         </div>
