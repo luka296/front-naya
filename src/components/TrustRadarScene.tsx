@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 import * as THREE from "three";
@@ -166,13 +166,15 @@ export function TrustRadarScene() {
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.65} />
-        <pointLight position={[5, 8, 5]} intensity={2.0} color="#fff8e7" />
-        <pointLight position={[-5, -6, -5]} intensity={0.6} color="#d4a64d" />
-        
-        <VerificationNetwork />
-        
-        <Stars radius={60} depth={20} count={500} factor={2} saturation={0.5} fade speed={0.5} />
+        <Suspense fallback={null}>
+          <ambientLight intensity={0.65} />
+          <pointLight position={[5, 8, 5]} intensity={2.0} color="#fff8e7" />
+          <pointLight position={[-5, -6, -5]} intensity={0.6} color="#d4a64d" />
+          
+          <VerificationNetwork />
+          
+          <Stars radius={60} depth={20} count={500} factor={2} saturation={0.5} fade speed={0.5} />
+        </Suspense>
       </Canvas>
       
       {/* Arabic Verification telemetry and descriptions */}

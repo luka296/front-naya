@@ -210,7 +210,9 @@ function GoldParticles() {
       pos[i + 2] += velocity[i + 2];
     }
 
-    (ref.current.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    if (ref.current.geometry?.attributes?.position) {
+      (ref.current.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+    }
   });
 
   return (
@@ -290,31 +292,33 @@ export function KaabaScene({ scrollY }: { scrollY: React.MutableRefObject<number
       gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.4 }}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[5, 8, 5]} intensity={2.2} color="#fff8e7" castShadow />
-      <directionalLight position={[-3, 6, -2]} intensity={0.8} color="#d4a64d" />
-      <pointLight position={[-5, 3, 3]} intensity={1.8} color="#d4a64d" distance={25} />
-      <pointLight position={[5, -1, 4]} intensity={1.0} color="#f0cc7c" distance={20} />
-      <pointLight position={[0, 7, -4]} intensity={1.2} color="#ffffff" distance={22} />
-      <pointLight position={[0, -3, 3]} intensity={1.2} color="#c89a3a" distance={16} />
-      {/* Extra front light so Kaaba is well lit */}
-      <spotLight position={[0, 4, 8]} intensity={2.0} angle={0.5} penumbra={0.8} color="#fff5e0" />
+      <Suspense fallback={null}>
+        <ambientLight intensity={0.55} />
+        <directionalLight position={[5, 8, 5]} intensity={2.2} color="#fff8e7" castShadow />
+        <directionalLight position={[-3, 6, -2]} intensity={0.8} color="#d4a64d" />
+        <pointLight position={[-5, 3, 3]} intensity={1.8} color="#d4a64d" distance={25} />
+        <pointLight position={[5, -1, 4]} intensity={1.0} color="#f0cc7c" distance={20} />
+        <pointLight position={[0, 7, -4]} intensity={1.2} color="#ffffff" distance={22} />
+        <pointLight position={[0, -3, 3]} intensity={1.2} color="#c89a3a" distance={16} />
+        {/* Extra front light so Kaaba is well lit */}
+        <spotLight position={[0, 4, 8]} intensity={2.0} angle={0.5} penumbra={0.8} color="#fff5e0" />
 
-      {/* Enhanced lighting for depth */}
-      <pointLight position={[8, 5, 5]} intensity={0.8} color="#f0cc7c" distance={30} decay={2} />
-      <pointLight position={[-8, 5, -5]} intensity={0.8} color="#d4a64d" distance={30} decay={2} />
+        {/* Enhanced lighting for depth */}
+        <pointLight position={[8, 5, 5]} intensity={0.8} color="#f0cc7c" distance={30} decay={2} />
+        <pointLight position={[-8, 5, -5]} intensity={0.8} color="#d4a64d" distance={30} decay={2} />
 
-      <CameraRig scrollY={scrollY} />
-      <Stars radius={70} depth={40} count={2200} factor={3} saturation={0} fade speed={0.4} />
-      <GoldParticles />
-      <GoldRing radius={3.8} speed={0.1}  opacity={0.2} />
-      <GoldRing radius={5.2} speed={-0.05} opacity={0.12} />
-      <GoldRing radius={6.8} speed={0.035} opacity={0.06} />
+        <CameraRig scrollY={scrollY} />
+        <Stars radius={70} depth={40} count={2200} factor={3} saturation={0} fade speed={0.4} />
+        <GoldParticles />
+        <GoldRing radius={3.8} speed={0.1}  opacity={0.2} />
+        <GoldRing radius={5.2} speed={-0.05} opacity={0.12} />
+        <GoldRing radius={6.8} speed={0.035} opacity={0.06} />
 
-      <SceneModels scrollY={scrollY} />
+        <SceneModels scrollY={scrollY} />
 
-      <ContactShadows position={[0, -1.55, 0]} opacity={0.5} scale={16} blur={2.5} far={4} color="#000" />
-      <Environment preset="night" />
+        <ContactShadows position={[0, -1.55, 0]} opacity={0.5} scale={16} blur={2.5} far={4} color="#000" />
+        <Environment preset="night" />
+      </Suspense>
     </Canvas>
   );
 }
