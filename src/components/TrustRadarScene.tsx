@@ -43,11 +43,15 @@ function DashedLine({ start, end }: { start: [number, number, number]; end: [num
     return new THREE.BufferGeometry().setFromPoints(points);
   }, [points]);
 
-  return (
-    <line geometry={lineGeometry}>
-      <lineBasicMaterial color="#d4a64d" transparent opacity={0.35} />
-    </line>
-  );
+  const lineMaterial = useMemo(() => {
+    return new THREE.LineBasicMaterial({ color: "#d4a64d", transparent: true, opacity: 0.35 });
+  }, []);
+
+  const lineObject = useMemo(() => {
+    return new THREE.Line(lineGeometry, lineMaterial);
+  }, [lineGeometry, lineMaterial]);
+
+  return <primitive object={lineObject} />;
 }
 
 // GPS Node markers revolving in space (enlarged for better visibility)
