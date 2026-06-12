@@ -17,6 +17,7 @@ const dockItems: DockItem[] = [
   { label: "الخدمات", href: "#services", id: "services", icon: Boxes },
   { label: "الرحلة", href: "#steps", id: "steps", icon: Route },
   { label: "الأمان", href: "#trust", id: "trust", icon: ShieldCheck },
+  { label: "النمو", href: "#dashboard", id: "dashboard", icon: BarChart3 },
 ];
 
 export function MobileDock() {

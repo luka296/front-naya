@@ -17,6 +17,7 @@ const navLinks: NavLink[] = [
   { label: "الفرصة", href: "#problem", id: "problem" },
   { label: "الرحلة", href: "#steps", id: "steps" },
   { label: "الأمان", href: "#trust", id: "trust" },
+  { label: "المستثمر", href: "#dashboard", id: "dashboard" },
 ];
 
 export function Header() {

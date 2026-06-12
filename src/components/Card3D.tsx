@@ -55,12 +55,12 @@ export function Card3D({ children, className, delay = 0 }: Card3DProps) {
         scale,
       }}
       className={cn(
-        "relative p-6 rounded-2xl border border-[rgba(212,166,77,0.18)] bg-[rgba(11,19,41,0.65)] backdrop-blur-xl overflow-hidden group transition-all duration-300 hover:border-[rgba(212,166,77,0.42)]",
+        "relative p-6 rounded-2xl border border-slate-100 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.02)] overflow-hidden group transition-all duration-300 hover:border-[#d4a64d]/30 hover:shadow-[0_18px_48px_rgba(163,122,40,0.06)]",
         "will-change-transform preserve-3d",
         className
       )}
     >
-      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[rgba(212,166,77,0.5)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[rgba(163,122,40,0.4)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       {children}
     </motion.div>
   );

@@ -1,22 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #d4a64d;
-  --color-gold-soft: #ffffff; /* Make titles and soft gold white for higher contrast */
-  --color-gold-dark: #8c672b;
-  --color-bg: #030712; /* Deep space navy blue background */
-  --color-bg-soft: #0b1329; /* Navy blue secondary background */
-  --color-panel: rgba(11, 19, 41, 0.85); /* Glassmorphic panel matching navy theme */
-  --color-panel-strong: rgba(15, 26, 56, 0.94);
-  --color-text-gold: #ffffff;
-  --color-muted-gold: #cbd5e1; /* White/slate text for readability */
-  --color-line-gold: rgba(212, 166, 77, 0.25);
+  --color-gold: #c59b27; /* Gold accent color */
+  --color-gold-soft: #ead2ac;
+  --color-gold-dark: #8c6a18;
+  --color-navy: #0b192c; /* Premium Navy Blue */
+  --color-navy-soft: #1e293b; /* Light Navy Blue */
+  --color-bg: #ffffff; /* Pure white base background */
+  --color-bg-soft: #f8fafc; /* Very light slate secondary background */
+  --color-panel: rgba(255, 255, 255, 0.9);
+  --color-panel-strong: rgba(255, 255, 255, 0.98);
+  --color-text-gold: #c59b27;
+  --color-muted-gold: #475569;
+  --color-line-gold: rgba(197, 155, 39, 0.12);
   --font-arabic: var(--font-ibm-plex-arabic), "Tajawal", "Segoe UI", system-ui, sans-serif;
 }
 
 :root {
-  --background: #030712;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #000000;
 }
 
 html {
@@ -28,32 +30,32 @@ body {
   min-height: 100vh;
   background-color: var(--background);
   background-image: 
-    linear-gradient(90deg, rgba(212, 166, 77, 0.045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(212, 166, 77, 0.035) 1px, transparent 1px);
-  background-size: 90px 90px;
+    linear-gradient(90deg, rgba(197, 155, 39, 0.012) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(197, 155, 39, 0.008) 1px, transparent 1px);
+  background-size: 80px 80px;
   color: var(--foreground);
   font-family: var(--font-arabic);
   overflow-x: hidden;
 }
 
 body::selection {
-  background: #d4a64d;
-  color: #111;
+  background: #ead2ac;
+  color: #0b192c;
 }
 
-/* Glassmorphism panel styles */
+/* Glassmorphism panel styles - white/black/gold/navy optimized */
 .glass-panel {
-  border: 1px solid rgba(212, 166, 77, 0.28);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent), rgba(14, 14, 12, 0.78);
-  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(197, 155, 39, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.95));
+  box-shadow: 0 15px 50px rgba(11, 25, 44, 0.03);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 .glass-panel-strong {
-  border: 1px solid rgba(241, 207, 130, 0.48);
-  background: linear-gradient(180deg, rgba(212, 166, 77, 0.09), transparent), rgba(20, 19, 16, 0.9);
-  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(197, 155, 39, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.98));
+  box-shadow: 0 20px 60px rgba(11, 25, 44, 0.05);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
@@ -64,20 +66,19 @@ body::selection {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.15;
+  opacity: 0.05;
   background-image:
-    linear-gradient(115deg, transparent 0 48%, rgba(255, 255, 255, 0.05) 49% 51%, transparent 52% 100%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 5px);
-  mix-blend-mode: screen;
+    linear-gradient(115deg, transparent 0 48%, rgba(0, 0, 0, 0.01) 49% 51%, transparent 52% 100%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.005) 0 1px, transparent 1px 5px);
 }
 
 /* Keyframes & Animations */
 @keyframes floatDevice {
   0%, 100% {
-    transform: translateY(0) rotate(-1deg);
+    transform: translateY(0) rotate(-0.5deg);
   }
   50% {
-    transform: translateY(-16px) rotate(1deg);
+    transform: translateY(-8px) rotate(0.5deg);
   }
 }
 
@@ -87,17 +88,17 @@ body::selection {
 }
 
 @keyframes pulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 166, 77, 0); }
-  50% { box-shadow: 0 0 32px 8px rgba(212, 166, 77, 0.18); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(197, 155, 39, 0); }
+  50% { box-shadow: 0 0 24px 6px rgba(197, 155, 39, 0.06); }
 }
 
 @keyframes floatUp {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-5px); }
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, #d4a64d 0%, #f8dfa6 45%, #d4a64d 55%, #9d6e2a 100%);
+  background: linear-gradient(90deg, #c59b27 0%, #ead2ac 45%, #c59b27 55%, #8c6a18 100%);
   background-size: 200% auto;
   animation: shimmer 3s linear infinite;
   -webkit-background-clip: text;
@@ -114,76 +115,64 @@ body::selection {
 }
 
 @keyframes rotateSlow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes slowZoom {
-  from {
-    transform: scale(1.04) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.1) translate3d(16px, -10px, 0);
-  }
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to { transform: scale(1.06) translate3d(8px, -5px, 0); }
 }
 
 @keyframes breathe {
-  0%, 100% {
-    box-shadow: 0 0 0 rgba(212, 166, 77, 0);
-  }
-  50% {
-    box-shadow: 0 0 70px rgba(212, 166, 77, 0.12);
-  }
+  0%, 100% { box-shadow: 0 0 0 rgba(197, 155, 39, 0); }
+  50% { box-shadow: 0 0 50px rgba(197, 155, 39, 0.04); }
 }
 
 .animate-float {
-  animation: floatDevice 5.6s ease-in-out infinite;
+  animation: floatDevice 6s ease-in-out infinite;
 }
 
 .animate-rotate-slow {
-  animation: rotateSlow 42s linear infinite;
+  animation: rotateSlow 45s linear infinite;
 }
 
 .animate-rotate-slow-reverse {
-  animation: rotateSlow 24s linear infinite reverse;
+  animation: rotateSlow 25s linear infinite reverse;
 }
 
 .animate-zoom-slow {
-  animation: slowZoom 18s ease-in-out infinite alternate;
+  animation: slowZoom 20s ease-in-out infinite alternate;
 }
 
 .animate-breathe {
-  animation: breathe 5s ease-in-out infinite;
+  animation: breathe 6s ease-in-out infinite;
 }
 
-/* Custom premium scrollbar matching the gold and dark blue theme */
+/* Custom premium scrollbar matching the gold/navy theme */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4a64d;
-  border: 3px solid #030712;
-  border-radius: 5px;
+  background: #e2e8f0;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  background: #c59b27;
 }
 
 /* Firefox compatibility */
 html {
   scrollbar-width: thin;
-  scrollbar-color: #d4a64d #030712;
+  scrollbar-color: #cbd5e1 #ffffff;
 }
 
 /* 3D Transform Support */
@@ -194,4 +183,3 @@ html {
 .will-change-transform {
   will-change: transform;
 }
-

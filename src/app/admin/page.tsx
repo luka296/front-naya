@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useData, DataState } from "@/context/DataContext";
+import { useData } from "@/context/DataContext";
 import Link from "next/link";
 import {
   Save,
@@ -13,10 +13,27 @@ import {
   PieChart,
   HelpCircle,
   CheckCircle,
-  FileText
+  FileText,
+  Sliders,
+  List
 } from "lucide-react";
 
-type TabType = "general" | "hero-stats" | "kpis" | "charts" | "activities";
+type TabType = "general" | "sections" | "hero-stats" | "kpis" | "charts" | "activities";
+
+const AVAILABLE_ICONS = [
+  { value: "bell", label: "جرس (Bell)" },
+  { value: "users", label: "مستخدمين (Users)" },
+  { value: "payment", label: "بطاقة دفع (Payment)" },
+  { value: "proof", label: "تقرير موثق (Proof)" },
+  { value: "shield", label: "درع أمان (Shield)" },
+  { value: "timer", label: "عداد وقت (Timer)" },
+  { value: "globe", label: "كرة أرضية (Globe)" },
+  { value: "umrah", label: "مبنى إسلامي (Umrah)" },
+  { value: "water", label: "قطرة ماء (Water)" },
+  { value: "dates", label: "نخلة/تمر (Dates)" },
+  { value: "spark", label: "لمعان (Spark)" },
+  { value: "report", label: "مستند/تقرير (Report)" }
+];
 
 export default function AdminPage() {
   const { data, updateData, resetData } = useData();
@@ -29,6 +46,44 @@ export default function AdminPage() {
   const [heroBadge, setHeroBadge] = useState(data.heroBadge);
   const [aboutTitle, setAboutTitle] = useState(data.aboutTitle);
   const [aboutDesc, setAboutDesc] = useState(data.aboutDesc);
+
+  // New fields
+  const [simulationLabel, setSimulationLabel] = useState(data.simulationLabel);
+  const [simulationHeading, setSimulationHeading] = useState(data.simulationHeading);
+  const [simulationDesc, setSimulationDesc] = useState(data.simulationDesc);
+
+  const [servicesLabel, setServicesLabel] = useState(data.servicesLabel);
+  const [servicesHeading, setServicesHeading] = useState(data.servicesHeading);
+  const [servicesDesc, setServicesDesc] = useState(data.servicesDesc);
+
+  const [aboutLabel, setAboutLabel] = useState(data.aboutLabel);
+  const [aboutBullets, setAboutBullets] = useState([...data.aboutBullets]);
+
+  const [problemLabel, setProblemLabel] = useState(data.problemLabel);
+  const [problemHeading, setProblemHeading] = useState(data.problemHeading);
+  const [problemDesc, setProblemDesc] = useState(data.problemDesc);
+  const [problemRightHeading, setProblemRightHeading] = useState(data.problemRightHeading);
+  const [problemRightDesc, setProblemRightDesc] = useState(data.problemRightDesc);
+
+  const [solutionLabel, setSolutionLabel] = useState(data.solutionLabel);
+  const [solutionHeading, setSolutionHeading] = useState(data.solutionHeading);
+  const [solutionDesc, setSolutionDesc] = useState(data.solutionDesc);
+
+  const [stepsLabel, setStepsLabel] = useState(data.stepsLabel);
+  const [stepsHeading, setStepsHeading] = useState(data.stepsHeading);
+  const [stepsDesc, setStepsDesc] = useState(data.stepsDesc);
+
+  const [trustLabel, setTrustLabel] = useState(data.trustLabel);
+  const [trustHeading, setTrustHeading] = useState(data.trustHeading);
+  const [trustDesc, setTrustDesc] = useState(data.trustDesc);
+  const [trustBullets, setTrustBullets] = useState([...data.trustBullets]);
+
+  const [businessModelLabel, setBusinessModelLabel] = useState(data.businessModelLabel);
+  const [businessModelHeading, setBusinessModelHeading] = useState(data.businessModelHeading);
+
+  const [investorLabel, setInvestorLabel] = useState(data.investorLabel);
+  const [investorHeading, setInvestorHeading] = useState(data.investorHeading);
+  const [investorDesc, setInvestorDesc] = useState(data.investorDesc);
 
   const [heroStats, setHeroStats] = useState([...data.heroStats]);
   const [dashboardKpis, setDashboardKpis] = useState([...data.dashboardKpis]);
@@ -48,6 +103,48 @@ export default function AdminPage() {
     updateData("aboutTitle", aboutTitle);
     updateData("aboutDesc", aboutDesc);
     showNotification("تم حفظ النصوص العامة بنجاح!");
+  };
+
+  const handleSaveSections = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateData("simulationLabel", simulationLabel);
+    updateData("simulationHeading", simulationHeading);
+    updateData("simulationDesc", simulationDesc);
+
+    updateData("servicesLabel", servicesLabel);
+    updateData("servicesHeading", servicesHeading);
+    updateData("servicesDesc", servicesDesc);
+
+    updateData("aboutLabel", aboutLabel);
+    updateData("aboutBullets", aboutBullets);
+
+    updateData("problemLabel", problemLabel);
+    updateData("problemHeading", problemHeading);
+    updateData("problemDesc", problemDesc);
+    updateData("problemRightHeading", problemRightHeading);
+    updateData("problemRightDesc", problemRightDesc);
+
+    updateData("solutionLabel", solutionLabel);
+    updateData("solutionHeading", solutionHeading);
+    updateData("solutionDesc", solutionDesc);
+
+    updateData("stepsLabel", stepsLabel);
+    updateData("stepsHeading", stepsHeading);
+    updateData("stepsDesc", stepsDesc);
+
+    updateData("trustLabel", trustLabel);
+    updateData("trustHeading", trustHeading);
+    updateData("trustDesc", trustDesc);
+    updateData("trustBullets", trustBullets);
+
+    updateData("businessModelLabel", businessModelLabel);
+    updateData("businessModelHeading", businessModelHeading);
+
+    updateData("investorLabel", investorLabel);
+    updateData("investorHeading", investorHeading);
+    updateData("investorDesc", investorDesc);
+
+    showNotification("تم حفظ المقاطع المضافة بنجاح!");
   };
 
   const handleSaveHeroStats = (e: React.FormEvent) => {
@@ -106,6 +203,24 @@ export default function AdminPage() {
     setPlatformActivities(updated);
   };
 
+  const updateAboutBulletText = (index: number, value: string) => {
+    const updated = [...aboutBullets];
+    updated[index] = { ...updated[index], text: value };
+    setAboutBullets(updated);
+  };
+
+  const updateAboutBulletIcon = (index: number, value: string) => {
+    const updated = [...aboutBullets];
+    updated[index] = { ...updated[index], icon: value };
+    setAboutBullets(updated);
+  };
+
+  const updateTrustBulletField = (index: number, field: "title" | "desc", value: string) => {
+    const updated = [...trustBullets];
+    updated[index] = { ...updated[index], [field]: value };
+    setTrustBullets(updated);
+  };
+
   return (
     <div className="relative min-h-screen bg-[linear-gradient(180deg,#030712_0%,#07101c_52%,#030712_100%)] text-white font-arabic p-6 md:p-12 overflow-x-hidden">
       {/* Background decorations */}
@@ -153,9 +268,10 @@ export default function AdminPage() {
         )}
 
         {/* Tab Selection */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 border-b border-white/5 pb-4">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 border-b border-white/5 pb-4">
           {[
             { id: "general", label: "نصوص الواجهة", icon: Layout },
+            { id: "sections", label: "مقاطع المحتوى", icon: Sliders },
             { id: "hero-stats", label: "إحصائيات الهيرو", icon: FileText },
             { id: "kpis", label: "مؤشرات المستثمر", icon: TrendingUp },
             { id: "charts", label: "الرسومات البيانية", icon: PieChart },
@@ -251,7 +367,379 @@ export default function AdminPage() {
             </form>
           )}
 
-          {/* TAB 2: Hero Stats */}
+          {/* TAB 2: Sections Detail */}
+          {activeTab === "sections" && (
+            <form onSubmit={handleSaveSections} className="space-y-12">
+              <h3 className="text-lg font-bold text-[#f2d58e] border-b border-white/5 pb-3">إدارة مقاطع المحتوى والترجمة والكلمات</h3>
+
+              {/* 1. Simulation */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">1. قسم المحاكاة التفاعلية (Simulation Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={simulationLabel}
+                      onChange={(e) => setSimulationLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={simulationHeading}
+                      onChange={(e) => setSimulationHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">الشرح الوصفي (Description)</label>
+                  <textarea
+                    value={simulationDesc}
+                    onChange={(e) => setSimulationDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+              </div>
+
+              {/* 2. Services */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">2. قسم خدمات المنصة (Services Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={servicesLabel}
+                      onChange={(e) => setServicesLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={servicesHeading}
+                      onChange={(e) => setServicesHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">الشرح الوصفي (Description)</label>
+                  <textarea
+                    value={servicesDesc}
+                    onChange={(e) => setServicesDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+              </div>
+
+              {/* 3. About Bullets */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">3. قسم التعريف والميزات (About Section)</h4>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                  <input
+                    type="text"
+                    value={aboutLabel}
+                    onChange={(e) => setAboutLabel(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                  />
+                </div>
+
+                <div className="space-y-3 pt-3 border-t border-white/5">
+                  <span className="text-xs font-bold text-slate-300 block">الميزات المرافقة (4 ميزات):</span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {aboutBullets.map((bullet, idx) => (
+                      <div key={idx} className="p-3 rounded-lg bg-black/20 border border-white/5 space-y-3">
+                        <span className="text-[10px] text-gold font-bold">الميزة {idx + 1}</span>
+                        <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-2">
+                          <input
+                            type="text"
+                            value={bullet.text}
+                            onChange={(e) => updateAboutBulletText(idx, e.target.value)}
+                            className="bg-black/40 border border-white/10 rounded px-2.5 py-1 text-xs text-white"
+                            placeholder="النص المرافق"
+                          />
+                          <select
+                            value={bullet.icon}
+                            onChange={(e) => updateAboutBulletIcon(idx, e.target.value)}
+                            className="bg-black/40 border border-white/10 rounded px-2 py-1 text-xs text-slate-200"
+                          >
+                            {AVAILABLE_ICONS.map((ico) => (
+                              <option key={ico.value} value={ico.value}>
+                                {ico.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 4. Problem */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">4. قسم التحديات والفرصة السوقية (Problem Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={problemLabel}
+                      onChange={(e) => setProblemLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={problemHeading}
+                      onChange={(e) => setProblemHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">شرح فجوة السوق (Description)</label>
+                  <textarea
+                    value={problemDesc}
+                    onChange={(e) => setProblemDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">عنوان العمود الجانبي الأيمن</label>
+                    <input
+                      type="text"
+                      value={problemRightHeading}
+                      onChange={(e) => setProblemRightHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">وصف العمود الجانبي الأيمن</label>
+                    <textarea
+                      value={problemRightDesc}
+                      onChange={(e) => setProblemRightDesc(e.target.value)}
+                      rows={3}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 5. Solution */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">5. قسم الحل والتحول الرقمي (Solution Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={solutionLabel}
+                      onChange={(e) => setSolutionLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={solutionHeading}
+                      onChange={(e) => setSolutionHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">شرح الحل (Description)</label>
+                  <textarea
+                    value={solutionDesc}
+                    onChange={(e) => setSolutionDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+              </div>
+
+              {/* 6. Steps */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">6. قسم رحلة المستخدم (Journey Steps Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={stepsLabel}
+                      onChange={(e) => setStepsLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={stepsHeading}
+                      onChange={(e) => setStepsHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">شرح رحلة الخطوات (Description)</label>
+                  <textarea
+                    value={stepsDesc}
+                    onChange={(e) => setStepsDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+              </div>
+
+              {/* 7. Trust */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">7. قسم الأمان والتتبع الجغرافي (Trust Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={trustLabel}
+                      onChange={(e) => setTrustLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={trustHeading}
+                      onChange={(e) => setTrustHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">شرح الأمان (Description)</label>
+                  <textarea
+                    value={trustDesc}
+                    onChange={(e) => setTrustDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+
+                <div className="space-y-3 pt-3 border-t border-white/5">
+                  <span className="text-xs font-bold text-slate-300 block">قائمة التوضيحات (5 بنود):</span>
+                  <div className="space-y-2">
+                    {trustBullets.map((bullet, idx) => (
+                      <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3 rounded bg-black/20 border border-white/5">
+                        <div className="space-y-1">
+                          <label className="text-[10px] text-slate-400">عنوان البند {idx + 1}</label>
+                          <input
+                            type="text"
+                            value={bullet.title}
+                            onChange={(e) => updateTrustBulletField(idx, "title", e.target.value)}
+                            className="w-full bg-black/40 border border-white/10 rounded px-2.5 py-1 text-xs text-white"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] text-slate-400">شرح البند {idx + 1}</label>
+                          <input
+                            type="text"
+                            value={bullet.desc}
+                            onChange={(e) => updateTrustBulletField(idx, "desc", e.target.value)}
+                            className="w-full bg-black/40 border border-white/10 rounded px-2.5 py-1 text-xs text-white"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 8. Business Model */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">8. قسم نموذج العمل والأثر المستدام (Business Model Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={businessModelLabel}
+                      onChange={(e) => setBusinessModelLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={businessModelHeading}
+                      onChange={(e) => setBusinessModelHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 9. Investor Dashboard */}
+              <div className="p-5 rounded-xl border border-white/5 bg-[#0b1329] space-y-4">
+                <h4 className="text-sm font-bold text-[#d4a64d]">9. مقطع عرض المستثمر النموذجي (Investor Dashboard Section)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">الملصق الصغير (Label)</label>
+                    <input
+                      type="text"
+                      value={investorLabel}
+                      onChange={(e) => setInvestorLabel(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs text-slate-400">العنوان الرئيسي (Heading)</label>
+                    <input
+                      type="text"
+                      value={investorHeading}
+                      onChange={(e) => setInvestorHeading(e.target.value)}
+                      className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-white"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs text-slate-400">الشرح الوصفي (Description)</label>
+                  <textarea
+                    value={investorDesc}
+                    onChange={(e) => setInvestorDesc(e.target.value)}
+                    rows={2}
+                    className="w-full bg-black/40 border border-white/10 rounded-md px-3 py-2 text-sm text-slate-200"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="flex items-center gap-2 px-6 py-3 font-bold text-slate-900 bg-gradient-to-l from-[#ead2ac] to-[#d4a64d] rounded-lg shadow-lg hover:shadow-[#d4a64d2d] transition-all duration-300 cursor-pointer"
+              >
+                <Save className="w-5 h-5" />
+                حفظ التغييرات للمقاطع
+              </button>
+            </form>
+          )}
+
+          {/* TAB 3: Hero Stats */}
           {activeTab === "hero-stats" && (
             <form onSubmit={handleSaveHeroStats} className="space-y-6">
               <h3 className="text-lg font-bold text-[#f2d58e] border-b border-white/5 pb-3">إحصائيات واجهة البداية (3 بطاقات)</h3>
@@ -301,7 +789,7 @@ export default function AdminPage() {
             </form>
           )}
 
-          {/* TAB 3: Investor KPIs */}
+          {/* TAB 4: Investor KPIs */}
           {activeTab === "kpis" && (
             <form onSubmit={handleSaveKpis} className="space-y-6">
               <h3 className="text-lg font-bold text-[#f2d58e] border-b border-white/5 pb-3">مؤشرات الأداء التنبؤية (لوحة العرض الاستثماري)</h3>
@@ -356,7 +844,7 @@ export default function AdminPage() {
             </form>
           )}
 
-          {/* TAB 4: Service Distribution Chart */}
+          {/* TAB 5: Service Distribution Chart */}
           {activeTab === "charts" && (
             <form onSubmit={handleSaveCharts} className="space-y-6">
               <h3 className="text-lg font-bold text-[#f2d58e] border-b border-white/5 pb-3">مخطط توزيع الخدمات الدائري (Donut Chart)</h3>
@@ -409,7 +897,7 @@ export default function AdminPage() {
             </form>
           )}
 
-          {/* TAB 5: Live Activity Feed */}
+          {/* TAB 6: Live Activity Feed */}
           {activeTab === "activities" && (
             <form onSubmit={handleSaveActivities} className="space-y-6">
               <h3 className="text-lg font-bold text-[#f2d58e] border-b border-white/5 pb-3">سجل النشاط التشغيلي المباشر (الأثر والتنفيذ الميداني)</h3>

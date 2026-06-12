@@ -9,8 +9,8 @@ const defaultDatasets = [
     id: "economy",
     name: "حجم الاقتصاد الإسلامي",
     nameEn: "Islamic Economy Size",
-    color: "#ec4899",
-    glowColor: "rgba(236, 72, 153, 0.4)",
+    color: "#0b192c",
+    glowColor: "rgba(11, 25, 44, 0.4)",
     points: [0.0, 0.05, 0.12, 0.22, 0.32, 0.42, 0.48, 0.54, 0.58, 0.62, 0.65, 0.68, 0.70],
     metric: "7.0T$",
     metricLabel: "إجمالي الإنتاج",
@@ -19,8 +19,8 @@ const defaultDatasets = [
     id: "pilgrims",
     name: "المعتمرون المستهدفون",
     nameEn: "Target Pilgrims",
-    color: "#06b6d4",
-    glowColor: "rgba(6, 182, 212, 0.4)",
+    color: "#1e293b",
+    glowColor: "rgba(30, 41, 59, 0.4)",
     points: [0.0, 0.03, 0.08, 0.15, 0.25, 0.31, 0.34, 0.37, 0.39, 0.41, 0.43, 0.44, 0.45],
     metric: "30M+",
     metricLabel: "سنوياً بحلول 2030",
@@ -29,8 +29,8 @@ const defaultDatasets = [
     id: "muslims",
     name: "المسلمون حول العالم",
     nameEn: "Muslims Worldwide",
-    color: "#a855f7",
-    glowColor: "rgba(168, 85, 247, 0.4)",
+    color: "#ead2ac",
+    glowColor: "rgba(234, 210, 172, 0.4)",
     points: [0.0, 0.02, 0.06, 0.11, 0.18, 0.23, 0.27, 0.29, 0.31, 0.32, 0.33, 0.34, 0.35],
     metric: "2.0B+",
     metricLabel: "قاعدة سوقية ضخمة",
@@ -39,8 +39,8 @@ const defaultDatasets = [
     id: "niya",
     name: "حصة منصة نية المستهدفة",
     nameEn: "Niya Target Users",
-    color: "#eab308",
-    glowColor: "rgba(234, 179, 8, 0.4)",
+    color: "#c59b27",
+    glowColor: "rgba(197, 155, 39, 0.4)",
     points: [0.0, 0.01, 0.03, 0.05, 0.08, 0.11, 0.14, 0.16, 0.17, 0.18, 0.19, 0.20, 0.20],
     metric: "1.5M",
     metricLabel: "مستخدم نشط مستهدف",
@@ -69,6 +69,44 @@ export interface DataState {
   platformActivities: any[];
   regionalCards: any[];
   leaderboardDatasets: any[];
+  
+  // Dynamic section titles and lists
+  simulationLabel: string;
+  simulationHeading: string;
+  simulationDesc: string;
+  
+  servicesLabel: string;
+  servicesHeading: string;
+  servicesDesc: string;
+  
+  aboutLabel: string;
+  aboutBullets: any[];
+  
+  problemLabel: string;
+  problemHeading: string;
+  problemDesc: string;
+  problemRightHeading: string;
+  problemRightDesc: string;
+  
+  solutionLabel: string;
+  solutionHeading: string;
+  solutionDesc: string;
+  
+  stepsLabel: string;
+  stepsHeading: string;
+  stepsDesc: string;
+  
+  trustLabel: string;
+  trustHeading: string;
+  trustDesc: string;
+  trustBullets: any[];
+  
+  businessModelLabel: string;
+  businessModelHeading: string;
+  
+  investorLabel: string;
+  investorHeading: string;
+  investorDesc: string;
 }
 
 const defaultState: DataState = {
@@ -93,6 +131,55 @@ const defaultState: DataState = {
   platformActivities: [...defaults.platformActivities],
   regionalCards: [...defaults.regionalCards],
   leaderboardDatasets: defaultDatasets,
+  
+  // Section Defaults
+  simulationLabel: "المحاكاة التفاعلية",
+  simulationHeading: "تتبع مباشر وتكامل لحظي لرحلة النسك",
+  simulationDesc: "شاهد كيف تتم مزامنة البيانات بين تطبيق العميل طالب الخدمة وتطبيق مؤدي العمرة في المشاعر المقدسة لحظة بلحظة مع التتبع الجغرافي GPS.",
+  
+  servicesLabel: "خدمات نية",
+  servicesHeading: "كل عمل صالح داخل تجربة واحدة موثوقة",
+  servicesDesc: "الواجهة تعكس خدمات NIYA_App الحقيقية: طلب، دفع، تنفيذ، متابعة، ثم تقرير موثق يمكن الرجوع إليه.",
+  
+  aboutLabel: "من هو تطبيق نية؟",
+  aboutBullets: [
+    { icon: "bell", text: "متابعة مباشرة للحالة" },
+    { icon: "users", text: "شبكة مزودين موثوقين" },
+    { icon: "payment", text: "دفع إلكتروني آمن" },
+    { icon: "proof", text: "تقارير رقمية موثقة" },
+  ],
+  
+  problemLabel: "فرصة سوقية ضخمة وغير مستغلة",
+  problemHeading: "سوق موجود، لكن يحتاج منصة تنظمه بثقة وفرص السوق",
+  problemDesc: "ملايين المسلمين يريدون أداء العمرة بالنيابة والصدقات الموسمية، لكن الرحلة الحالية غالبا متفرقة وغير قابلة للقياس.",
+  problemRightHeading: "واقع السوق اليوم: فجوة الثقة والبيانات",
+  problemRightDesc: "رغم الحجم الضخم للسوق والطلب المتزايد عالمياً، إلا أن الرحلة الحالية تعاني من تشتت كبير وغياب للشفافية. الاعتماد المستمر على الطرق التقليدية واليدوية يصعب عمليات التوثيق والمتابعة للمستفيدين والجهات المانحة على حد سواء. منصة نية تسد هذه الفجوة بتقديم منصة تقنية متكاملة.",
+  
+  solutionLabel: "الحل",
+  solutionHeading: "تجربة رقمية موثوقة للأعمال بالنيابة",
+  solutionDesc: "نية تجمع الطلب والتنفيذ والتوثيق داخل نظام واضح للمستخدم والشريك والإدارة.",
+  
+  stepsLabel: "رحلة المستخدم",
+  stepsHeading: "من النية إلى أثر موثق في ست خطوات",
+  stepsDesc: "الرحلة مصممة كمسار واضح: المستخدم يعرف ماذا حدث، ومن نفذ، ومتى اكتمل الطلب.",
+  
+  trustLabel: "الأمان والشفافية",
+  trustHeading: "بنية ثقة تليق بالعبادات والأمانات",
+  trustDesc: "كل خدمة تحتاج أكثر من واجهة جميلة: نية تضيف نظام تتبع جغرافي متطور وتحقق صارم يربطك بالمشاعر المقدسة لحظة بلحظة.",
+  trustBullets: [
+    { title: "شركاء موثقون ميدانياً", desc: "اعتماد مسبق للشركاء ومراجعة شاملة ومستقلة لتقارير التنفيذ قبل إظهارها." },
+    { title: "بوابة مدفوعات آمنة", desc: "عملية دفع مشفرة بالكامل تضمن سلامة وسجل طلبات واضح لكل معاملة." },
+    { title: "تتبع جغرافي GPS", desc: "رصد مباشر ونشط لتتّبع حالة تنفيذ المعتمرين في المشاعر المقدسة بالخرائط والإحداثيات." },
+    { title: "تقارير رقمية شفافة", desc: "توثيق شامل تشمل الصور، التحديثات وتفاصيل الأثر الميداني للطلبات." },
+    { title: "خصوصية بيانات صارمة", desc: "حماية كاملة لبيانات المستفيدين والحد من مشاركتها ميدانياً للحفاظ على الخصوصية." }
+  ],
+  
+  businessModelLabel: "نموذج العمل",
+  businessModelHeading: "نموذج مستدام يحقق أثرا قابلا للقياس",
+  
+  investorLabel: "نموذج العرض الاستثماري",
+  investorHeading: "لوحة توقعات النمو في السنة الأولى",
+  investorDesc: "تقديرات الأثر ونمو المستخدمين وحجم المعاملات المستهدف لعرضه على المستثمرين للمرحلة التأسيسية.",
 };
 
 interface DataContextType {
@@ -112,7 +199,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = localStorage.getItem("niya_dynamic_data");
       if (saved) {
-        setData(JSON.parse(saved));
+        // Merge saved data with default state to handle newly added fields
+        const parsed = JSON.parse(saved);
+        setData({
+          ...defaultState,
+          ...parsed
+        });
       }
     } catch (e) {
       console.error("Failed to load local storage data:", e);

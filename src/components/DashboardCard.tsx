@@ -29,7 +29,7 @@ export function DashboardCard({
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       whileHover={{ y: -3 }}
       className={cn(
-        "rounded-xl border border-[#d4a64d25] bg-[#0b1329]/88 p-5 shadow-[0_16px_42px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_22px_58px_rgba(0,0,0,0.7)]",
+        "rounded-xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-shadow duration-300 hover:shadow-[0_12px_42px_rgba(163,122,40,0.05)]",
         className
       )}
     >
@@ -37,16 +37,16 @@ export function DashboardCard({
         <div className="mb-5 flex items-start justify-between gap-4" dir="rtl">
           <div>
             {eyebrow && <p className="mb-1 text-xs font-bold text-gold">{eyebrow}</p>}
-            {title && <h3 className="text-base font-extrabold text-white">{title}</h3>}
+            {title && <h3 className="text-base font-extrabold text-slate-800">{title}</h3>}
           </div>
           {Icon && (
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[#d4a64d33] bg-[#d4a64d18] text-gold">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-[#d4a64d]/20 bg-[#d4a64d]/10 text-[#a37a28]">
               <Icon className="h-5 w-5" />
             </div>
           )}
         </div>
       )}
-      <div className="text-slate-300">{children}</div>
+      <div className="text-slate-600">{children}</div>
     </motion.article>
   );
 }

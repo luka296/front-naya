@@ -1,413 +1,378 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, RotateCcw, TrendingUp, Users, Globe, Award } from "lucide-react";
+import { motion, AnimatePresence, animate } from "framer-motion";
+import { Users, Landmark, TrendingUp, Play, Pause, RotateCcw, ArrowLeftRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { useData } from "@/context/DataContext";
+// Decimals-handling count-up helper
+function Counter({
+  from,
+  to,
+  duration = 1.2,
+  decimals = 1,
+  suffix = "",
+}: {
+  from: number;
+  to: number;
+  duration?: number;
+  decimals?: number;
+  suffix?: string;
+}) {
+  const [count, setCount] = useState(from);
 
-interface Dataset {
-  id: string;
-  name: string;
-  nameEn: string;
-  color: string;
-  glowColor: string;
-  points: number[];
-  metric: string;
-  metricLabel: string;
+  useEffect(() => {
+    const controls = animate(from, to, {
+      duration: duration,
+      ease: "easeOut",
+      onUpdate(value) {
+        setCount(value);
+      },
+    });
+    return () => controls.stop();
+  }, [from, to, duration]);
+
+  return (
+    <span>
+      {count.toFixed(decimals)}
+      {suffix}
+    </span>
+  );
 }
 
+interface MarketStat {
+  value: number;
+  decimals: number;
+  suffix: string;
+  label: string;
+  sub: string;
+  percentage: number;
+  color: string;
+  icon: any;
+}
+
+const statsData: MarketStat[] = [
+  {
+    value: 7.0,
+    decimals: 1,
+    suffix: "T$",
+    label: "حجم الاقتصاد الإسلامي",
+    sub: "حجم سوق السلع والخدمات والتمويل الإسلامي المتوافق",
+    percentage: 100,
+    color: "#c59b27", // Gold
+    icon: TrendingUp,
+  },
+  {
+    value: 2.0,
+    decimals: 1,
+    suffix: "B+",
+    label: "المسلمون حول العالم",
+    sub: "القاعدة الاستهلاكية والشرائح الديموغرافية المستهدفة عالمياً",
+    percentage: 75,
+    color: "#0b192c", // Navy
+    icon: Users,
+  },
+  {
+    value: 30.0,
+    decimals: 0,
+    suffix: "M+",
+    label: "المعتمرون المستهدفون",
+    sub: "مستهدف رؤية السعودية 2030 لتسهيل استضافة ضيوف الرحمن",
+    percentage: 50,
+    color: "#1e293b", // Navy Soft
+    icon: Landmark,
+  },
+];
+
 export default function MarketLeaderboardChart() {
-  const { data } = useData();
-  const datasets = data.leaderboardDatasets;
-  const [progress, setProgress] = useState(0); // 0 to 1
+  const [currentIndex, setCurrentIndex] = useState(0); // 0, 1, 2, 3 (3 is the pause/summary state)
   const [isPlaying, setIsPlaying] = useState(true);
-  const [speed, setSpeed] = useState(1); // multiplier
-  const [hoveredLine, setHoveredLine] = useState<string | null>(null);
-
-  const requestRef = useRef<number | null>(null);
-  const previousTimeRef = useRef<number | null>(null);
-
-  // Animation loop
+  const [progress, setProgress] = useState(0); // progress bar for current slide
+  
+  // Timer handler for loop and progress animation
   useEffect(() => {
-    const animate = (time: number) => {
-      if (previousTimeRef.current !== undefined && previousTimeRef.current !== null) {
-        const deltaTime = (time - previousTimeRef.current) / 1000;
-        if (isPlaying) {
-          setProgress((prev) => {
-            const next = prev + (deltaTime / 14) * speed; // 14 seconds for full animation
-            if (next >= 1) {
-              setIsPlaying(false);
-              return 1;
-            }
-            return next;
-          });
-        }
-      }
-      previousTimeRef.current = time;
-      requestRef.current = requestAnimationFrame(animate);
-    };
+    if (!isPlaying) return;
 
-    requestRef.current = requestAnimationFrame(animate);
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    };
-  }, [isPlaying, speed]);
+    const totalDuration = currentIndex === 3 ? 3000 : 5000;
+    const steps = 100;
+    const stepTime = totalDuration / steps;
+    let currentStep = 0;
 
-  const handleReplay = () => {
     setProgress(0);
-    previousTimeRef.current = null;
+
+    const progressInterval = setInterval(() => {
+      currentStep += 1;
+      setProgress((currentStep / steps) * 100);
+    }, stepTime);
+
+    const transitionTimer = setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % 4);
+    }, totalDuration);
+
+    return () => {
+      clearInterval(progressInterval);
+      clearTimeout(transitionTimer);
+    };
+  }, [currentIndex, isPlaying]);
+
+  const handlePauseToggle = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleReset = () => {
+    setCurrentIndex(0);
+    setProgress(0);
     setIsPlaying(true);
   };
 
-  // SVG Chart Specs
-  const width = 600;
-  const height = 350;
-  const padLeft = 60;
-  const padRight = 30;
-  const padTop = 40;
-  const padBottom = 40;
-  
-  const activeW = width - padLeft - padRight;
-  const activeH = height - padTop - padBottom;
-
-  const currentMonth = progress * 12;
-
-  const getX = (month: number) => padLeft + (month / 12) * activeW;
-  const getY = (val: number) => height - padBottom - (val / 0.8) * activeH;
-
-  // Interpolated values for current progress
-  const getInterpolatedValue = (points: number[], current: number) => {
-    const idx = Math.floor(current);
-    if (idx >= 12) return points[12];
-    const t = current - idx;
-    return points[idx] * (1 - t) + points[idx + 1] * t;
-  };
-
-  // Generate SVG path for a dataset up to the current progress
-  const getPathD = (points: number[], current: number) => {
-    const idx = Math.floor(current);
-    let d = `M ${getX(0)} ${getY(points[0])}`;
-    for (let i = 1; i <= idx; i++) {
-      d += ` L ${getX(i)} ${getY(points[i])}`;
-    }
-    if (idx < 12) {
-      const nextX = getX(current);
-      const nextVal = getInterpolatedValue(points, current);
-      const nextY = getY(nextVal);
-      d += ` L ${nextX} ${nextY}`;
-    }
-    return d;
-  };
-
-  // Live total opportunity calculation (animates up to 7.0T)
-  const currentOpportunity = (progress * 7.0).toFixed(1);
+  // Get active item or summary info
+  const isActiveSummary = currentIndex === 3;
+  const currentStat = !isActiveSummary ? statsData[currentIndex] : null;
 
   return (
-    <div className="relative w-full rounded-xl border border-[#d4a64d24] bg-[#060b13]/90 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-      {/* Top cyan progress bar */}
-      <div className="absolute left-0 right-0 top-0 h-[3px] overflow-hidden bg-slate-900 rounded-t-xl">
-        <div
-          className="h-full bg-cyan-400 transition-all duration-100 ease-out shadow-[0_0_12px_rgba(34,211,238,0.8)]"
-          style={{ width: `${progress * 100}%` }}
-        />
-      </div>
-
-      {/* Header section */}
-      <div className="mb-6 flex flex-col justify-between gap-4 border-b border-[#d4a64d12] pb-4 sm:flex-row sm:items-center" dir="rtl">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-cyan-500 shadow-[0_0_8px_#06b6d4]" />
-            <h4 className="text-base font-extrabold text-white">
-              مؤشر فرصة السوق الحية لمنصة نية
-            </h4>
-          </div>
-          <p className="mt-1 text-xs text-slate-400 font-medium">
-            مؤشر التحول الرقمي وتوقعات النمو خلال 12 شهراً
-          </p>
+    <div className="relative w-full rounded-2xl border border-slate-150 bg-white p-5 shadow-[0_12px_48px_rgba(0,0,0,0.02)] flex flex-col justify-between h-[390px]" dir="rtl">
+      
+      {/* Top dashboard control bar */}
+      <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-gold animate-pulse shadow-[0_0_8px_#c59b27]" />
+          <h4 className="text-xs font-black text-slate-800">تحليل وتوقعات الفرصة السوقية الحية</h4>
         </div>
 
-        {/* Action controls */}
-        <div className="flex items-center gap-3" dir="ltr">
+        {/* Action Controls */}
+        <div className="flex items-center gap-2.5" dir="ltr">
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer"
-            title={isPlaying ? "Pause" : "Play"}
+            onClick={handlePauseToggle}
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-150 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-all cursor-pointer shadow-sm"
           >
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
           </button>
           <button
-            onClick={handleReplay}
-            className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer"
-            title="Replay"
+            onClick={handleReset}
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-slate-150 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-all cursor-pointer shadow-sm"
+            title="إعادة التشغيل"
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
-          <div className="flex rounded-md border border-white/10 bg-white/[0.02] p-0.5">
-            {[1, 2].map((s) => (
-              <button
-                key={s}
-                onClick={() => setSpeed(s)}
-                className={cn(
-                  "px-2 py-0.5 text-[10px] font-mono rounded transition-all cursor-pointer",
-                  speed === s ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/20" : "text-slate-400 hover:text-white"
-                )}
-              >
-                {s}x
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Main Layout: Full-Width Chart first, then Horizontal Cards underneath */}
-      <div className="space-y-6">
-        {/* Dynamic Chart (Full Width) */}
-        <div className="relative min-h-[350px] w-full select-none rounded-xl bg-[#030712]/50 p-4 border border-white/[0.03]">
-          {/* Big number counter overlay */}
-          <div className="absolute right-6 top-6 z-10 pointer-events-none text-right" dir="rtl">
-            <div className="flex items-baseline gap-1.5 justify-start">
-              <span className="text-3xl sm:text-4xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                {currentOpportunity} تريليون $
-              </span>
-              <span className="text-slate-500 text-xs">/ 7.0 تريليون $</span>
-            </div>
-            <p className="mt-1.5 text-[10px] font-bold text-slate-450 tracking-wide">
-              فرصة الاقتصاد الإسلامي المستهدفة
-            </p>
-          </div>
+      {/* Main Content Area */}
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-[0.7fr_1.3fr_0.7fr] gap-4 items-center py-3">
+        
+        {/* Flanking Card Left */}
+        <div className="hidden md:block">
+          <FlankingCard
+            stat={statsData[0]}
+            isActive={currentIndex === 0}
+            isSummary={isActiveSummary}
+            onClick={() => {
+              setCurrentIndex(0);
+              setProgress(0);
+            }}
+          />
+        </div>
 
-          {/* SVG Canvas */}
-          <svg className="w-full h-auto" viewBox={`0 0 ${width} ${height}`}>
-            {/* Grid Background */}
-            <g opacity="0.07" stroke="#ffffff" strokeWidth="1">
-              {/* Horizontal lines */}
-              {[0, 0.2, 0.4, 0.6, 0.8].map((val) => (
-                <line key={val} x1={padLeft} y1={getY(val)} x2={width - padRight} y2={getY(val)} />
-              ))}
-              {/* Vertical lines */}
-              {[0, 3, 6, 9, 12].map((month) => (
-                <line key={month} x1={getX(month)} y1={padTop} x2={getX(month)} y2={height - padBottom} />
-              ))}
-            </g>
-
-            {/* Axes labels */}
-            <g className="text-[10px] fill-slate-500 font-mono">
-              {/* Y Axis labels */}
-              {[0, 0.2, 0.4, 0.6, 0.8].map((val) => (
-                <text key={val} x={padLeft - 12} y={getY(val) + 4} textAnchor="end">
-                  {val.toFixed(1)}
-                </text>
-              ))}
-              {/* X Axis labels */}
-              {[0, 3, 6, 9, 12].map((month) => (
-                <text key={month} x={getX(month)} y={height - padBottom + 18} textAnchor="middle">
-                  M{month}
-                </text>
-              ))}
-              <text x={width / 2} y={height - 5} textAnchor="middle" className="text-[9px] fill-slate-400 font-bold">
-                المدى الزمني للتوقعات (بالأشهر)
-              </text>
-            </g>
-
-            {/* Dotted Red Baseline Line */}
-            <line
-              x1={padLeft}
-              y1={getY(0.6)}
-              x2={width - padRight}
-              y2={getY(0.6)}
-              stroke="#ef4444"
-              strokeDasharray="4 4"
-              strokeWidth="1.5"
-              opacity="0.5"
-            />
-            <text
-              x={width - padRight - 5}
-              y={getY(0.6) - 5}
-              textAnchor="end"
-              className="text-[9px] fill-red-400 font-bold opacity-80"
-            >
-              الحد الأدنى للفرصة (0.6)
-            </text>
-
-            {/* Animated Data Lines */}
-            {datasets.map((dataset) => {
-              const isHovered = hoveredLine === dataset.id;
-              const isAnyHovered = hoveredLine !== null;
-              const pathD = getPathD(dataset.points, currentMonth);
-
-              return (
-                <g
-                  key={dataset.id}
-                  onMouseEnter={() => setHoveredLine(dataset.id)}
-                  onMouseLeave={() => setHoveredLine(null)}
-                  className="cursor-pointer"
-                >
-                  {/* Glowing background stroke */}
-                  <path
-                    d={pathD}
-                    fill="none"
-                    stroke={dataset.color}
-                    strokeWidth={isHovered ? 6 : 4}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity={isHovered ? 0.75 : isAnyHovered ? 0.15 : 0.4}
-                    style={{
-                      filter: `drop-shadow(0 0 8px ${dataset.color})`,
-                    }}
-                  />
-                  {/* Core solid stroke */}
-                  <path
-                    d={pathD}
-                    fill="none"
-                    stroke={dataset.color}
-                    strokeWidth={isHovered ? 3.5 : 2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity={isHovered ? 1 : isAnyHovered ? 0.25 : 0.9}
-                  />
-                </g>
-              );
-            })}
-
-            {/* Vertical scanning line */}
-            {progress > 0 && (
-              <line
-                x1={getX(currentMonth)}
-                y1={padTop}
-                x2={getX(currentMonth)}
-                y2={height - padBottom}
-                stroke="#22d3ee"
-                strokeWidth="1.5"
-                opacity="0.8"
-                style={{
-                  filter: "drop-shadow(0 0 4px rgba(34,211,238,0.8))",
+        {/* Central Dynamic Gauge/Counter */}
+        <div className="flex flex-col items-center justify-center text-center">
+          <div className="relative w-48 h-48 flex items-center justify-center">
+            
+            {/* SVG Circular Progress Gauge */}
+            <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="44"
+                fill="none"
+                stroke="#f1f5f9"
+                strokeWidth="4"
+              />
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="44"
+                fill="none"
+                stroke="url(#gaugeGold)"
+                strokeWidth="4.5"
+                strokeDasharray="276"
+                initial={{ strokeDashoffset: 276 }}
+                animate={{
+                  strokeDashoffset: isActiveSummary
+                    ? 0
+                    : 276 - (276 * currentStat!.percentage) / 100,
                 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+              <defs>
+                <linearGradient id="gaugeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ead2ac" />
+                  <stop offset="100%" stopColor="#c59b27" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Central numbers container */}
+            <div className="z-10 flex flex-col items-center justify-center p-3 select-none">
+              <AnimatePresence mode="wait">
+                {isActiveSummary ? (
+                  <motion.div
+                    key="summary"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex flex-col items-center"
+                  >
+                    <span className="text-2xl font-black text-slate-800">نية</span>
+                    <span className="text-[9px] font-bold text-gold uppercase tracking-wider mt-1">
+                      ربط الأثر بالفرصة
+                    </span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="flex flex-col items-center"
+                  >
+                    {currentStat && (
+                      <>
+                        <span className="text-[#a37a28] font-black text-4xl tracking-tight drop-shadow-sm">
+                          <Counter
+                            from={0}
+                            to={currentStat.value}
+                            decimals={currentStat.decimals}
+                            suffix={currentStat.suffix}
+                          />
+                        </span>
+                        <span className="text-[10px] font-extrabold text-slate-800 max-w-[120px] leading-relaxed mt-1.5">
+                          {currentStat.label}
+                        </span>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* Flanking Card Right */}
+        <div className="hidden md:block">
+          <FlankingCard
+            stat={statsData[1]}
+            isActive={currentIndex === 1}
+            isSummary={isActiveSummary}
+            onClick={() => {
+              setCurrentIndex(1);
+              setProgress(0);
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Bottom pagination & timeline indicators */}
+      <div className="flex flex-col gap-2.5">
+        
+        {/* Horizontal details subtext */}
+        <div className="text-center min-h-[32px] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-[11px] text-slate-500 font-bold leading-relaxed max-w-[500px]"
+            >
+              {isActiveSummary
+                ? "دورة إحصائية كاملة. منصة نية تسد فجوة الشفافية في هذا الاقتصاد الضخم."
+                : currentStat!.sub}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+
+        {/* Timeline dots indicators */}
+        <div className="flex items-center justify-center gap-2">
+          {statsData.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setCurrentIndex(idx);
+                setProgress(0);
+              }}
+              className="relative h-1.5 rounded-full overflow-hidden bg-slate-100 transition-all duration-300 cursor-pointer"
+              style={{ width: currentIndex === idx ? "36px" : "8px" }}
+            >
+              {currentIndex === idx && (
+                <motion.div
+                  className="h-full bg-gold"
+                  style={{ width: `${progress}%` }}
+                />
+              )}
+            </button>
+          ))}
+          
+          {/* Pause slide dot indicator */}
+          <button
+            onClick={() => {
+              setCurrentIndex(3);
+              setProgress(0);
+            }}
+            className="relative h-1.5 rounded-full overflow-hidden bg-slate-100 transition-all duration-300 cursor-pointer"
+            style={{ width: currentIndex === 3 ? "36px" : "8px" }}
+          >
+            {currentIndex === 3 && (
+              <motion.div
+                className="h-full bg-[#0b192c]"
+                style={{ width: `${progress}%` }}
               />
             )}
-
-            {/* Pulsing Intersection Dots and Floating Pills */}
-            {progress > 0 &&
-              datasets.map((dataset, idx) => {
-                const currentVal = getInterpolatedValue(dataset.points, currentMonth);
-                const cx = getX(currentMonth);
-                const cy = getY(currentVal);
-                const isHovered = hoveredLine === dataset.id;
-                const isAnyHovered = hoveredLine !== null;
-                const opacity = isHovered ? 1 : isAnyHovered ? 0.2 : 0.8;
-
-                return (
-                  <g key={dataset.id} className="transition-opacity duration-200" opacity={opacity}>
-                    {/* Glowing outer circle */}
-                    <circle
-                      cx={cx}
-                      cy={cy}
-                      r="7"
-                      fill={dataset.color}
-                      className="animate-ping"
-                      opacity="0.4"
-                    />
-                    {/* Inner core circle */}
-                    <circle
-                      cx={cx}
-                      cy={cy}
-                      r="4"
-                      fill="#ffffff"
-                      stroke={dataset.color}
-                      strokeWidth="2.5"
-                    />
-
-                    {/* Floating Value Pill */}
-                    <g transform={`translate(${cx + 10}, ${cy - 8})`}>
-                      <rect
-                        width="38"
-                        height="16"
-                        rx="3"
-                        fill="#0b1329"
-                        stroke={dataset.color}
-                        strokeWidth="1"
-                        opacity="0.95"
-                      />
-                      <text
-                        x="19"
-                        y="11"
-                        textAnchor="middle"
-                        fill="#ffffff"
-                        className="text-[9px] font-bold font-mono"
-                      >
-                        {currentVal.toFixed(3)}
-                      </text>
-                    </g>
-                  </g>
-                );
-              })}
-          </svg>
+          </button>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Horizontal Cards underneath */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {datasets.map((dataset, idx) => {
-            const currentVal = getInterpolatedValue(dataset.points, currentMonth);
-            const isHovered = hoveredLine === dataset.id;
-            const isFirst = idx === 0;
+// Helper component for flanking cards
+function FlankingCard({
+  stat,
+  isActive,
+  isSummary,
+  onClick,
+}: {
+  stat: MarketStat;
+  isActive: boolean;
+  isSummary: boolean;
+  onClick: () => void;
+}) {
+  const Icon = stat.icon;
 
-            return (
-              <div
-                key={dataset.id}
-                onMouseEnter={() => setHoveredLine(dataset.id)}
-                onMouseLeave={() => setHoveredLine(null)}
-                className={cn(
-                  "relative flex flex-col justify-between rounded-xl border p-4 transition-all duration-300 select-none cursor-pointer",
-                  isHovered
-                    ? "border-[#d4a64d] bg-[#d4a64d]/[0.06] shadow-[0_0_16px_rgba(212,166,77,0.2)] scale-[1.03]"
-                    : "border-white/[0.05] bg-[#0b1329]/40 hover:border-white/15 hover:bg-[#0b1329]/60",
-                  isFirst && !isHovered && "border-[#d4a64d]/30"
-                )}
-              >
-                {/* Rank & Current Live Score row */}
-                <div className="flex items-center justify-between mb-3" dir="rtl">
-                  <span className="text-xs font-mono font-extrabold text-gold">
-                    {currentVal.toFixed(3)}
-                  </span>
-                  <span
-                    className={cn(
-                      "flex h-5 w-5 items-center justify-center rounded text-[10px] font-bold font-mono",
-                      isFirst ? "bg-[#eab308] text-[#030712]" : "bg-white/5 text-slate-400"
-                    )}
-                  >
-                    #{idx + 1}
-                  </span>
-                </div>
-
-                {/* Color Dot & Value & Name info */}
-                <div className="text-right" dir="rtl">
-                  <div className="flex items-center gap-2 mb-1 justify-start">
-                    <span
-                      className="h-2 w-2 rounded-full shadow-[0_0_6px_currentColor] shrink-0"
-                      style={{
-                        backgroundColor: dataset.color,
-                        color: dataset.color,
-                      }}
-                    />
-                    <h5 className="text-sm font-black text-white leading-none">
-                      {dataset.metric}
-                    </h5>
-                  </div>
-                  <p className="text-[11px] text-slate-400 font-bold leading-normal mt-1.5">
-                    {dataset.name}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Quick Info text at the bottom */}
-        <div className="mt-4 border-t border-[#d4a64d12] pt-4 text-xs leading-6 text-slate-400 text-right" dir="rtl">
-          <span className="font-extrabold text-[#f2d58e]">مؤشر الاقتصاد الرقمي:</span>
-          {" يوضح النمو التصاعدي المتوقع للمنصة وتكاملها مع الفرص السوقية للخدمات الإسلامية."}
-        </div>
+  return (
+    <div
+      onClick={onClick}
+      className={cn(
+        "rounded-xl border p-3.5 text-center cursor-pointer transition-all duration-500 flex flex-col items-center gap-2",
+        isActive && !isSummary
+          ? "border-[#d4a64d] bg-[#d4a64d]/5 scale-105 shadow-sm"
+          : "border-slate-100 bg-white hover:border-slate-200 opacity-60 hover:opacity-95"
+      )}
+    >
+      <span className={cn(
+        "grid h-8 w-8 place-items-center rounded-lg bg-slate-50 text-slate-600 transition-colors",
+        isActive && "bg-[#d4a64d]/15 text-[#a37a28]"
+      )}>
+        <Icon className="w-4 h-4" />
+      </span>
+      <div>
+        <h5 className="text-xs font-black text-slate-800 leading-tight">
+          {stat.value}
+          {stat.suffix}
+        </h5>
+        <p className="text-[9px] font-bold text-slate-500 mt-1 leading-snug">
+          {stat.label}
+        </p>
       </div>
     </div>
   );

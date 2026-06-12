@@ -10,16 +10,16 @@ interface StatCardProps {
   value: string;
   description?: string;
   icon?: ComponentType<{ className?: string }>;
-  tone?: "gold" | "teal" | "blue";
+  tone?: "gold" | "navy" | "black";
   delay?: number;
   compact?: boolean;
   className?: string;
 }
 
 const toneStyles = {
-  gold: "from-[#d4a64d] to-[#f6d993] text-[#f4d58a] border-[#d4a64d33]",
-  teal: "from-[#14b8a6] to-[#99f6e4] text-[#5eead4] border-[#14b8a633]",
-  blue: "from-[#60a5fa] to-[#bfdbfe] text-[#93c5fd] border-[#60a5fa33]",
+  gold: "from-[#a37a28] to-[#c59b27] text-[#a37a28] border-gold/15",
+  navy: "from-[#0b192c] to-[#1e293b] text-[#0b192c] border-slate-900/15",
+  black: "from-[#000000] to-[#0f172a] text-[#000000] border-slate-950/15",
 };
 
 export function StatCard({
@@ -40,14 +40,14 @@ export function StatCard({
       transition={{ duration: 0.55, delay, ease: "easeOut" }}
       whileHover={{ y: -4 }}
       className={cn(
-        "group relative overflow-hidden rounded-lg border bg-white/[0.055] p-5 shadow-[0_16px_48px_rgba(0,0,0,0.22)] backdrop-blur-xl transition-colors duration-300 hover:bg-white/[0.08]",
+        "group relative overflow-hidden rounded-lg border bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:shadow-[0_18px_48px_rgba(163,122,40,0.06)]",
         toneStyles[tone].split(" ").at(-1),
         className
       )}
     >
       <div
         className={cn(
-          "absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-80",
+          "absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-90",
           toneStyles[tone].split(" ").slice(0, 2).join(" ")
         )}
       />
@@ -61,18 +61,18 @@ export function StatCard({
               toneStyles[tone].split(" ")[2]
             )}
           />
-          <h3 className={cn("mt-3 font-bold text-white", compact ? "text-sm" : "text-base")}>
+          <h3 className={cn("mt-3 font-bold text-slate-800", compact ? "text-sm" : "text-base")}>
             {label}
           </h3>
         </div>
         {Icon && (
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/[0.08] text-white shadow-inner">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-slate-100 bg-slate-50 text-slate-700 shadow-inner">
             <Icon className={cn("h-5 w-5", toneStyles[tone].split(" ")[2])} />
           </div>
         )}
       </div>
       {description && (
-        <p className="relative mt-3 text-sm leading-6 text-slate-300">{description}</p>
+        <p className="relative mt-3 text-sm leading-6 text-slate-500 font-medium">{description}</p>
       )}
     </motion.article>
   );

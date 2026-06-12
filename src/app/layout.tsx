@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { DataProvider } from "@/context/DataContext";
-import { AdminTrigger } from "@/components/AdminTrigger";
 import "./globals.css";
 
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
@@ -48,7 +47,6 @@ export default function RootLayout({
         
         <DataProvider>
           {children}
-          <AdminTrigger />
         </DataProvider>
       </body>
     </html>

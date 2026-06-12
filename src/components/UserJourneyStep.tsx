@@ -28,7 +28,7 @@ export function UserJourneyStep({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.55, delay, ease: "easeOut" }}
       whileHover={{ y: -5 }}
-      className="group relative rounded-lg border border-[rgba(212,166,77,0.2)] bg-[rgba(12,18,32,0.72)] p-5 shadow-[0_18px_58px_rgba(0,0,0,0.26)] backdrop-blur-xl"
+      className="group relative rounded-lg border border-slate-100 bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.02)] transition-all duration-300 hover:shadow-[0_18px_48px_rgba(163,122,40,0.06)]"
     >
       {!isLast && (
         <div
@@ -39,17 +39,17 @@ export function UserJourneyStep({
         />
       )}
       <div className="mb-5 flex items-center justify-between gap-4">
-        <span className="grid h-12 w-12 place-items-center rounded-full border border-[#d4a64d55] bg-[#d4a64d18] text-sm font-extrabold text-[#f2d58e] shadow-[0_0_24px_rgba(212,166,77,0.16)]">
+        <span className="grid h-12 w-12 place-items-center rounded-full border border-[#d4a64d]/30 bg-[#d4a64d]/10 text-sm font-extrabold text-[#a37a28] shadow-sm">
           {num}
         </span>
-        <div className="grid h-12 w-12 place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-white">
-          <Icon className="h-6 w-6 text-[#f2d58e]" />
+        <div className="grid h-12 w-12 place-items-center rounded-lg border border-slate-100 bg-slate-50 text-slate-700">
+          <Icon className="h-6 w-6 text-[#a37a28]" />
         </div>
       </div>
-      <h3 className="text-lg font-extrabold text-white transition-colors duration-300 group-hover:text-[#f2d58e]">
+      <h3 className="text-lg font-extrabold text-slate-800 transition-colors duration-300 group-hover:text-[#a37a28]">
         {title}
       </h3>
-      <p className="mt-3 text-sm leading-7 text-slate-300">{desc}</p>
+      <p className="mt-3 text-sm leading-7 text-slate-500 font-medium">{desc}</p>
     </motion.article>
   );
 }
